@@ -1,0 +1,34 @@
+repos:
+  - repo: https://github.com/commitizen-tools/commitizen
+    rev: v4.8.3
+    hooks:
+      - id: commitizen
+        language_version: "python3.13"
+        stages: ["commit-msg"]
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v6.0.0
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-yaml
+      - id: debug-statements
+      - id: name-tests-test
+      - id: requirements-txt-fixer
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.12.9
+    hooks:
+      # run the Ruff linter
+      - id: ruff-check
+        args: [--fix]
+      # run the Ruff formatter
+      - id: ruff-format
+  - repo: local
+    hooks:
+      - id: mypy
+        name: Run mypy
+        entry: bash -c "cd backend && poetry run mypy src/"
+        exclude: settings.py
+        language: system
+        types: ["python"]
+        require_serial: true
+        pass_filenames: false
